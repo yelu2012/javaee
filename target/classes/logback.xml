@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+    <!--debug级别的日志输出到E://logs/error.log下-->
+    <appender name="D" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Append>true</Append>
+        <File>E://logs/log.log</File>
+        <encoder>
+            <pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+    <!--error级别的日志输出到E://logs/error.log下-->
+    <appender name="E" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>E://logs/error.log</File>
+        <Append>true</Append>
+        <encoder>
+            <pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+    <root level="debug">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="D"/>
+        <appender-ref ref="E"/>
+    </root>
+</configuration>

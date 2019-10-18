@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置连接信息-->
+    <bean id="PoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/>
+    </bean>
+    <!--得到连接工厂-->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.hostName}"/>
+        <property name="password" value="${redis.password}"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="poolConfig" ref="PoolConfig"/>
+    </bean>
+    <!--创建redisTemplate 并设置序列化-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultSerializer" ref="stringRedisSerializer"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="valueSerializer" ref="stringRedisSerializer"/>
+        <property name="hashKeySerializer" ref="stringRedisSerializer"/>
+        <property name="hashValueSerializer" ref="stringRedisSerializer"/>
+    </bean>
+    <!--配置序列化器-->
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+</beans>
